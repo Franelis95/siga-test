@@ -1,0 +1,13 @@
+/* Écran de connexion de la version de test */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:var(--ground)}
+.login-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;display:grid;gap:14px}
+.login-brand{display:flex;gap:12px;align-items:center}
+.login-brand img{width:52px;height:52px;object-fit:contain}
+.login-brand b{display:block;font-size:20px;color:var(--brand)}
+.login-brand span{font-size:12.5px;color:var(--muted)}
+.login-err{margin:0;padding:10px 12px;border-radius:var(--r-sm);background:var(--red-soft);color:var(--red);font-size:13.5px}
+.login details{border:1px dashed var(--line);border-radius:var(--r-sm);padding:8px 12px}
+.login details[open]{display:grid;gap:10px}
+.login summary{cursor:pointer;font-size:13px;color:var(--ink-2)}
+.login .btn.pri{justify-content:center;padding:10px}
+#srvbar .tag{margin-left:auto}

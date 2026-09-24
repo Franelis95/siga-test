@@ -1,0 +1,8 @@
+{
+  "appId": "bf.dgreh.siga.test",
+  "appName": "SIGA Test",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false, "captureInput": true, "webContentsDebuggingEnabled": false },
+  "backgroundColor": "#0E271E"
+}

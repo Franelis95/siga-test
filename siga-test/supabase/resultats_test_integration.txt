@@ -1,0 +1,40 @@
+OK    écran de connexion affiché
+OK    serveur intégré à la construction : pas de champ serveur
+OK    mauvais mot de passe refusé
+OK    compte non rattaché refusé
+OK    aucun jeton de session en stockage local
+OK    admin connecté (compte technique)
+OK    paramètres et circuits par défaut envoyés au serveur
+OK    DG rattaché par l’interface (sans « voir en tant que »)
+OK    liste des comptes à jour
+OK    exemples envoyés
+OK    dossiers en base : 97
+OK    aucun jeton restant en base
+OK    aucun jeton restant dans l’application
+OK    numéros d’arrivée sans doublon
+OK    numérotation sans trou (compteur = numéros attribués)
+OK    journal : même nombre de lignes client et serveur
+OK    journal vérifié dans l’application (empreintes serveur)
+OK    journal vérifié sur le serveur
+OK    numéro d’OM au format officiel : OM/2026/DGREH/0001
+OK    admin : « voir en tant que » et « Mon compte »
+OK    18 modules affichés sans erreur
+OK    DG connecté avec son profil d’agent
+OK    DG voit les mêmes dossiers
+OK    DG sans droit « voir en tant que » : seulement « Mon compte »
+OK    module « Comptes de test » caché au DG
+OK    tâches du DG calculées : 5
+OK    numéro d’arrivée suivant attribué par le serveur : 0007/2026
+OK    modification reçue par l’autre testeur
+OK    conflit : la modification sur version périmée est refusée
+OK    conflit : B reçoit la version à jour
+OK    conflit : B est prévenu
+OK    bandeau : hors connexion, modification en attente
+OK    numéro en attente affiché « ···/2026 », jamais le jeton
+OK    décision refusée hors connexion
+OK    retour du réseau : envoi et numéro attribué 0008/2026
+OK    base de test vidée
+OK    comptes conservés
+OK    aucune erreur JavaScript
+
+38 réussis, 0 échecs

@@ -1,0 +1,38 @@
+Administrateur de test : admin@test.bf
+OK    tenant de l'admin = DGREH
+OK    rattachement agent par l'admin
+OK    1er courrier arrivée = 0001
+OK    même jeton, même numéro dans le dossier
+OK    2e courrier arrivée = 0002
+OK    compteur DMD séparé, largeur 6
+OK    jeton rejoué = même numéro
+OK    version incrémentée par le serveur
+OK    modification sur version périmée refusée (conflit)
+OK    renvoi d'un dossier existant ignoré
+OK    compteur lisible par siga_counters_peek
+OK    nouveau jeton sur mise à jour = 0003
+OK    audit : seq attribué par le serveur
+OK    audit : chaînage prev = hash précédent
+OK    audit : chaîne intègre
+OK    audit : modification ignorée
+OK    audit : chaîne toujours intègre
+OK    audit renvoyé : ignoré, chaîne intacte
+OK    audit : seq imposé par le client écrasé
+OK    audit : chaîne intègre après a3
+OK    suppression refusée
+OK    agent voit les dossiers de son organisation
+OK    profil agent rattaché
+OK    agent ne voit que son profil
+OK    agent ne peut pas rattacher de compte
+OK    agent ne peut pas vider la base
+OK    compteurs inaccessibles en direct
+OK    attribution de numéro impossible hors enregistrement d'un dossier
+OK    autre organisation : aucun dossier DGREH visible
+OK    autre organisation : écriture dans DGREH refusée
+OK    numérotation indépendante par organisation
+OK    mise à jour inter-organisation sans effet
+OK    anonyme : aucun accès
+Données de test effacées
+OK    après remise à zéro : numérotation repart à 0001
+OK    remise à zéro limitée à son organisation (invisible ici)
+OK    dossiers de l'autre organisation intacts
