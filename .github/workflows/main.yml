@@ -1,0 +1,113 @@
+# Construit les trois versions de SIGA Test à chaque envoi sur la branche main
+# (ou à la demande : onglet Actions > « Construire SIGA Test » > Run workflow) :
+#   - Android : SIGA-Test.apk
+#   - Windows : installateur .exe et version portable .exe
+#   - Web     : publiée sur GitHub Pages
+# Les fichiers sont joints à la publication « test-latest » (onglet Releases).
+name: Construire SIGA Test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: siga-build
+  cancel-in-progress: true
+
+# Le projet est dans le sous-dossier siga-test/ du dépôt
+defaults:
+  run:
+    working-directory: siga-test
+
+env:
+  SIGA_SUPABASE_URL: ${{ secrets.SIGA_SUPABASE_URL }}
+  SIGA_SUPABASE_ANON_KEY: ${{ secrets.SIGA_SUPABASE_ANON_KEY }}
+
+jobs:
+  android:
+    name: Android (APK)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: siga-test/package-lock.json }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - name: Dépendances
+        run: npm ci
+        env: { ELECTRON_SKIP_BINARY_DOWNLOAD: '1' }
+      - name: Application web
+        run: npm run build:web
+      - name: Copie dans le projet Android
+        run: npx cap sync android
+      - name: Construction de l'APK
+        working-directory: siga-test/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease -PsigaVersionCode=${{ github.run_number }}
+          cp app/build/outputs/apk/release/app-release.apk ../SIGA-Test.apk
+      - uses: actions/upload-artifact@v4
+        with: { name: SIGA-Test-Android, path: siga-test/SIGA-Test.apk }
+
+  windows:
+    name: Windows (EXE)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: siga-test/package-lock.json }
+      - name: Dépendances
+        run: npm ci
+      - name: Application web
+        run: npm run build:web
+      - name: Installateur et version portable
+        run: npx electron-builder --win --publish never
+      - uses: actions/upload-artifact@v4
+        with: { name: SIGA-Test-Windows, path: siga-test/dist/*.exe }
+
+  web:
+    name: Web (GitHub Pages)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: siga-test/package-lock.json }
+      - run: npm ci
+        env: { ELECTRON_SKIP_BINARY_DOWNLOAD: '1' }
+      - run: npm run build:web
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: siga-test/www }
+      - name: Publication
+        id: deploy
+        uses: actions/deploy-pages@v4
+        continue-on-error: true   # si GitHub Pages n'est pas activé, les autres versions sont quand même publiées
+
+  publication:
+    name: Publication des fichiers
+    needs: [android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: out, merge-multiple: true }
+      - name: Publication « test-latest »
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test-latest
+          name: SIGA Test (dernière construction)
+          prerelease: true
+          make_latest: false
+          body: |
+            Construction n° ${{ github.run_number }} du ${{ github.event.head_commit.timestamp || github.run_id }}.
+            - Android : SIGA-Test.apk
+            - Windows : SIGA-Test-…-installation.exe (installation) ou SIGA-Test-…-portable.exe (sans installation)
+            Version de TEST : dossiers enregistrés sur le serveur de test.
+          files: out/*
